@@ -20,18 +20,15 @@ logger = logging.getLogger(__name__)
 def index(request):
     return JsonResponse({"message": "Welcome to the API"})
 
-
 class StandardResultsSetPagination(PageNumberPagination):
     page_size = 10
     page_size_query_param = 'page_size'
     max_page_size = 100
 
-
 class BillViewSet(viewsets.ModelViewSet):
     queryset = Bill.objects.all()
     serializer_class = BillSerializer
     pagination_class = StandardResultsSetPagination
-
 
 class InvestorViewSet(viewsets.ModelViewSet):
     """
@@ -99,8 +96,6 @@ class InvestorViewSet(viewsets.ModelViewSet):
             
             bill_date = date.today()
             due_date = bill_date + timedelta(days=30)
-            
-            
             bills = generate_bills_for_investor(investor, fee_percentage, bill_date, due_date)
 
             # Update the cached investor after generating bills
