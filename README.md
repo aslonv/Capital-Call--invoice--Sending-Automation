@@ -1,29 +1,6 @@
-# Project Documentation: Fee Calculation and Validation Enhancements
+# Additions 
 
-<<<<<<< HEAD
-
-## Table of Contents
-
-1. [Leap Year Handling in Fee Calculations](#leap-year-handling)
-   * [Overview](#overview-leap-year-handling)
-   * [Implementation](#implementation-leap-year-handling)
-   * [Importance](#importance-leap-year-handling)
-2. [Enhanced IBAN Validation](#iban-validation)
-   * [Overview](#overview-iban-validation)
-   * [Frontend Validation](#frontend-validation-iban)
-   * [Backend Validation](#backend-validation-iban)
-   * [Security Benefits](#security-benefits-iban)
-3. [Caching Implementation](#caching)
-   * [Endpoints](#endpoints-caching)
-   * [Cache Strategy](#cache-strategy)
-4. [Background Tasks with Celery](#celery)
-   * [Overview](#overview-celery)
-   * [Benefits](#benefits-celery)
-   * [Implementation](#implementation-celery)
-
----
-
-## Leap Year Handling in Fee Calculations
+# Leap Year Handling in Fee Calculations
 
 ### Overview
 
@@ -35,12 +12,6 @@ Leap year handling is incorporated into the `calculate_yearly_fee` function at t
 
 1. **For investments before April 2019** : Adjustments ensure correct calculation of days in the first year based on whether it is a leap year.
 2. **For investments after April 2019** : Similar adjustments are made to reflect leap year considerations up to the current date.
-
-### Importance
-
-=======
-
-# Leap Year Handling in Fee Calculations
 
 # Pro-rata Calculation**
 
@@ -55,30 +26,16 @@ Using the correct number of days in the year (365 or 366) as the denominator whe
 3. **Compliance** : Many financial regulations require precise calculations. Accounting for leap years demonstrates attention to detail and commitment to accuracy.
 4. **Edge Case Handling** : It correctly handles the edge case of investments made on February 29th in leap years.
 
---
-
 CSRF protection implementation - JavaScript code ensures that it complies with Django's CSRF protection mechanism, thereby preventing cross-site request forgery attacks.
 
 # Enhanced IBAN Validation Documentation
 
 Implemented a two-tier validation system for International Bank Account Numbers (IBANs) in our application. This system includes both client-side (frontend) and server-side (backend) validation to ensure the integrity and correctness of IBAN data entered by users.
 
->>>>>>> 769e9a2aef8889e7c69273bcb30dc4f05163eb04
->>>>>>>
->>>>>>
->>>>>
->>>>
->>>
->>
-
 1. **Accuracy** : Ensures precise fee calculations for investments spanning leap years.
 2. **Equitability** : Guarantees fair charges irrespective of leap year occurrences.
 3. **Compliance** : Demonstrates adherence to financial regulations by ensuring meticulous calculations.
 4. **Edge Case Handling** : Properly manages scenarios like investments made on February 29th in leap years.
-
----
-
-<<<<<<< HEAD
 
 ## Enhanced IBAN Validation
 
@@ -107,26 +64,11 @@ This approach ensures all IBANs in our database adhere to international banking 
 * **Immediate User Feedback** : Enhances user experience by promptly identifying IBAN format errors.
 * **Server Load Reduction** : Minimizes unnecessary server and database operations.
 * **Comprehensive Validation** : Ensures strict adherence to global IBAN standards, regardless of frontend validation status.
-  =======
-  --
-
-## Caching
-
->>>>>>> 769e9a2aef8889e7c69273bcb30dc4f05163eb04
->>>>>>>
->>>>>>
->>>>>
->>>>
->>>
->>
-
----
 
 ## Caching Implementation
 
 ### Endpoints
 
-<<<<<<< HEAD
 Caching is implemented for the following endpoints to optimize performance:
 
 * Individual investor details retrieval
@@ -153,4 +95,3 @@ Celery is leveraged for executing asynchronous, time-intensive tasks such as gen
 ### Implementation
 
 Celery-based background tasks are initiated via API calls, with results stored and accessible upon task completion. This approach optimizes performance and enriches user interaction by ensuring non-blocking task execution.
-==============================================================================================================================================================================================================================
