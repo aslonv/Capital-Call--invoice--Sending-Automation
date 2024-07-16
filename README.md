@@ -36,7 +36,6 @@ Leap year handling is incorporated into the `calculate_yearly_fee` function at t
 
 ### Importance
 
-=======
 
 # Leap Year Handling in Fee Calculations
 
