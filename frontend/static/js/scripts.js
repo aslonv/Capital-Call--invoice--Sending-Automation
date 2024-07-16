@@ -117,6 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// comment
 
 function getCookie(name) {
     let cookieValue = null;
