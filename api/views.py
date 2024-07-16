@@ -104,7 +104,7 @@ class InvestorViewSet(viewsets.ModelViewSet):
             bills = generate_bills_for_investor(investor, fee_percentage, bill_date, due_date)
 
             # Update the cached investor after generating bills
-            cache_key = f'investor_{investor.id}'
+            cache_key = f'invest or_{investor.id}'
             cache.set(cache_key, investor, timeout=3600)
 
             return Response({'message': f'{len(bills)} bills generated for {investor.name}'}, status=status.HTTP_201_CREATED)
