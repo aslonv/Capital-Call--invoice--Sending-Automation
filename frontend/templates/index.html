@@ -1,0 +1,50 @@
+<!-- frontend/templates/index.html -->
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARCHIMED Capital Call Automation</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>ARCHIMED Capital Call Automation</h1>
+
+        <h2>Investors</h2>
+        <ul id="investors-list">
+        {% for investor in investors %}
+            <li>
+                {{ investor.name }} ({{ investor.email }})
+                <button class="generate-bills-btn" data-investor-id="{{ investor.id }}">Generate Bills</button>
+            </li>
+        {% endfor %}
+        </ul>
+
+        <h2>Bills</h2>
+        <ul id="bills-list">
+        {% for bill in bills %}
+            <li>{{ bill.bill_type }} - Amount: {{ bill.amount }} EUR (Due: {{ bill.due_date }})</li>
+        {% endfor %}
+        </ul>
+
+        <h2>Capital Calls</h2>
+        <ul id="capital-calls-list">
+        {% for capital_call in capital_calls %}
+            <li>
+                Investor: {{ capital_call.investor.name }} - Total: {{ capital_call.total_amount }} EUR
+                (Status: {{ capital_call.status }}, Due: {{ capital_call.due_date }})
+                <button class="update-status-btn" data-capital-call-id="{{ capital_call.id }}">Update Status</button>
+            </li>
+        {% endfor %}
+        </ul>
+
+
+        <button class="create-capital-call-btn">Create Capital Call</button>
+    </div>
+
+    <script src="{% static 'js/scripts.js' %}"></script>
+</body>
+</html>
