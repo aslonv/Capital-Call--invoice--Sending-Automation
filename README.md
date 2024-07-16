@@ -1,4 +1,3 @@
-Certainly! I'll create a comprehensive documentation for the codebase you've shared. This documentation will cover the project structure, key components, and functionality.
 
 # ARCHIMED Capital Call Automation System Documentation
 
