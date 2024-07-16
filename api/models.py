@@ -1,5 +1,7 @@
+from stdnum import iban
 from django.db import models
 from django.utils.timezone import now
+from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, RegexValidator
 
 # Model to represent an investor
@@ -33,6 +35,18 @@ class Bill(models.Model):
 
     def __str__(self):
         return f"{self.get_bill_type_display()} - {self.amount} ({self.date})"
+    
+class IBANField(models.CharField):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('max_length', 34)
+        super().__init__(*args, **kwargs)
+
+    def clean(self, value, model_instance):
+        value = super().clean(value, model_instance)
+        try:
+            return iban.validate(value)
+        except ValueError:
+            raise ValidationError('Invalid IBAN')
 
 # Model to represent a capital call associated with an investor and multiple bills
 class CapitalCall(models.Model):
@@ -51,13 +65,7 @@ class CapitalCall(models.Model):
     investor = models.ForeignKey(Investor, on_delete=models.CASCADE)
     bills = models.ManyToManyField(Bill)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    iban = models.CharField(
-        max_length=34, 
-        validators=[RegexValidator(
-            regex='^[A-Z]{2}\\d{2}[A-Z0-9]{1,30}$', 
-            message='Invalid IBAN format'
-        )]
-    )
+    iban = IBANField()
     status = models.CharField(choices=STATUS_CHOICES, max_length=20)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRFToken': getCSRFToken(), // Include CSRF token here
+                'X-CSRFToken': getCSRFToken(),
             },
             body: JSON.stringify({ fee_percentage: 0.01 }),
         })
@@ -48,16 +48,26 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    function validateIBAN(iban) {
+        const ibanRegex = /^([A-Z]{2}[ \-]?[0-9]{2})(?=(?:[ \-]?[A-Z0-9]){9,30}$)((?:[ \-]?[A-Z0-9]{3,5}){2,7})([ \-]?[A-Z0-9]{1,3})?$/;
+        return ibanRegex.test(iban.replace(/\s/g, ''));
+    }
+
     function createCapitalCall() {
         const investorId = prompt("Enter Investor ID:");
         const billIds = prompt("Enter Bill IDs (comma-separated):").split(',').map(id => parseInt(id.trim()));
         const iban = prompt("Enter IBAN:");
 
+        if (!validateIBAN(iban)) {
+            alert('Invalid IBAN format');
+            return;
+        }
+
         fetch('/api/capital-calls/create_for_investor/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRFToken': getCSRFToken(), // Include CSRF token here
+                'X-CSRFToken': getCSRFToken(),
             },
             body: JSON.stringify({ 
                 investor_id: parseInt(investorId),
@@ -87,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRFToken': getCSRFToken(), // Include CSRF token here
+                'X-CSRFToken': getCSRFToken(),
             },
             body: JSON.stringify({ status: newStatus }),
         })

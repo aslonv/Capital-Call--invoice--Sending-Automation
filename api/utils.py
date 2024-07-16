@@ -1,4 +1,6 @@
-from datetime import datetime
+# api/utils.py
+
+from datetime import datetime, date
 from decimal import Decimal
 
 def calculate_membership_fee(amount_invested):
@@ -7,28 +9,45 @@ def calculate_membership_fee(amount_invested):
 def calculate_upfront_fee(fee_percentage, amount_invested):
     return Decimal(str(fee_percentage)) * amount_invested * Decimal('5')
 
-def calculate_yearly_fee(investment_date, fee_percentage, amount_invested):
+def calculate_yearly_fee(investment_date, fee_percentage, amount_invested, current_date=None):
     fee_percentage = Decimal(str(fee_percentage))
-    current_date = datetime.now()
+    amount_invested = Decimal(str(amount_invested))
+    current_date = current_date or date.today()
     years_since_investment = current_date.year - investment_date.year
 
-    if investment_date < datetime.strptime('2019-04-01', '%Y-%m-%d').date():
+    # ... (rest of the function remains the same)
+
+    # Convert the cutoff date to a date object
+    cutoff_date = date(2019, 4, 1)
+
+    if investment_date < cutoff_date:
+        # Calculations for investments before 2019/04
         if years_since_investment == 0:
-            days_in_year = 365 if investment_date.year % 4 != 0 else 366
-            return (Decimal(investment_date.timetuple().tm_yday) / days_in_year) * fee_percentage * amount_invested
+            # First year
+            days_in_year = 366 if investment_date.year % 4 == 0 else 365
+            days_invested = (date(investment_date.year, 12, 31) - investment_date).days + 1
+            return (Decimal(days_invested) / Decimal(days_in_year)) * fee_percentage * amount_invested
         else:
+            # Other years
             return fee_percentage * amount_invested
     else:
+        # Calculations for investments after 2019/04
         if years_since_investment == 0:
-            days_in_year = 365 if current_date.year % 4 != 0 else 366
-            return (Decimal(investment_date.timetuple().tm_yday) / days_in_year) * fee_percentage * amount_invested
+            # First year
+            days_in_year = 366 if current_date.year % 4 == 0 else 365
+            days_invested = (current_date - investment_date).days + 1
+            return (Decimal(days_invested) / Decimal(days_in_year)) * fee_percentage * amount_invested
         elif years_since_investment == 1:
+            # Second year
             return fee_percentage * amount_invested
         elif years_since_investment == 2:
+            # Third year
             return (fee_percentage - Decimal('0.0020')) * amount_invested
         elif years_since_investment == 3:
+            # Fourth year
             return (fee_percentage - Decimal('0.0050')) * amount_invested
         else:
+            # Following years
             return (fee_percentage - Decimal('0.0100')) * amount_invested
 
 def generate_bills_for_investor(investor, fee_percentage, bill_date, due_date):
