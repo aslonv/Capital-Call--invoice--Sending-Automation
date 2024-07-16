@@ -1,7 +1,5 @@
 # Project Documentation: Fee Calculation and Validation Enhancements
 
-<<<<<<< HEAD
-
 ## Table of Contents
 
 1. [Leap Year Handling in Fee Calculations](#leap-year-handling)
