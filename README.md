@@ -16,11 +16,7 @@ The leap year handling is implemented in two places within the `calculate_yearly
 
 1. For investments before April 2019
 
-`if years_since_investment == 0:
-    # First year
-    days_in_year = 366 if investment_date.year % 4 == 0 else 365
-    days_invested = (date(investment_date.year, 12, 31) - investment_date).days + 1
-    return (Decimal(days_invested) / Decimal(days_in_year)) * fee_percentage * amount_invested`
+`if years_since_investment == 0:     # First year     days_in_year = 366 if investment_date.year % 4 == 0 else 365     days_invested = (date(investment_date.year, 12, 31) - investment_date).days + 1     return (Decimal(days_invested) / Decimal(days_in_year)) * fee_percentage * amount_invested`
 
 2. For investments after April 2019:
 
@@ -55,8 +51,6 @@ The leap year handling is implemented in two places within the `calculate_yearly
 
 By implementing CSRF protection in this manner, your frontend JavaScript code ensures that it complies with Django's CSRF protection mechanism, thereby preventing cross-site request forgery attacks.
 
-
-
 # Enhanced IBAN Validation Documentation
 
 ## Overview
@@ -84,16 +78,12 @@ This function is called before sending IBAN data to the server:
 **// ... continue with API call**
 **}**
 
-
 Security Benefits
-
 
 * **Immediate User Feedback** : Users receive instant feedback if they enter an incorrectly formatted IBAN, improving user experience and reducing server load.
 * **Reduced Server Load** : By catching obvious format errors client-side, we reduce unnecessary server requests and database operations.
 
-
 In the backend, we've implemented a more robust validation using the `python-stdnum` library:
-
 
 **from** stdnum **import** iban
 
@@ -109,8 +99,6 @@ In the backend, we've implemented a more robust validation using the `python-std
     iban **=** IBANField**(**)
 **# ...**
 
-
-
 And in the serializer:
 
 class CapitalCallSerializer(serializers.ModelSerializer):
@@ -121,9 +109,31 @@ class CapitalCallSerializer(serializers.ModelSerializer):
         except ValueError:
             raise serializers.ValidationError('Invalid IBAN')
 
-
-
 * **Comprehensive Validation** : The `python-stdnum` library performs checks beyond just the format, including country-specific rules and check digits.
 * **Up-to-date Rules** : The library is maintained and updated, ensuring our validation stays current with international banking standards.
 * **Consistency** : Ensures all IBANs in the database meet a standardized level of validity.
 * **Protection Against Bypassed Frontend Validation** : Even if a user bypasses or manipulates the frontend validation, the backend still enforces strict IBAN validity.
+
+
+
+--
+
+
+
+## Caching
+
+This API implements caching to improve performance for frequently accessed data. Specifically:
+
+- Individual investor details are cached for 1 hour after being retrieved from the database.
+- The cache is automatically updated when an investor is modified through the API.
+- Caching is currently implemented for the following endpoints:
+  - GET /api/investors/{id}/
+  - PUT /api/investors/{id}/
+  - PATCH /api/investors/{id}/
+
+Note: The caching duration and strategy may be adjusted based on usage patterns and performance requirements.
+
+
+
+
+Implementing background tasks with Celery can be beneficial for this project, especially for long-running operations like generating multiple bills. It can improve the responsiveness of your API and handle complex, time-consuming tasks asynchronously. Here's how you could implement it and why it might be a good fit for this project:
